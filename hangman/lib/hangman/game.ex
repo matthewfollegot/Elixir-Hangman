@@ -4,7 +4,7 @@ defmodule Hangman.Game do
         turns_left: 7,
         game_state: :initializing,
         letters:    [],
-        used:       MapSet.new(),
+        used:       MapSet.new()
     )
 
     def new_game(word) do
@@ -38,7 +38,7 @@ defmodule Hangman.Game do
     ### Below are our private functions for this module
 
     # Already guessed acts as documentation b.c. the compiler ignores the variable name b.c. of the _
-    defp accept_move(game, guess, _already_guessed = true) do
+    defp accept_move(game, _guess, _already_guessed = true) do
         Map.put(game, :game_state, :already_used)
     end
 
@@ -60,7 +60,7 @@ defmodule Hangman.Game do
        exit(:normal)
     end
 
-    defp score_guess(game = %{ turns_left: turns_left }, _not_good_guess) do
+    defp score_guess(game = %{ turns_left: _turns_left }, _not_good_guess) do
         # Following is the map updating syntax (to update more than one field of the map simultaneously)
         %{ game | game_state: :bad_guess,
                   turns_left: Map.get(game, :turns_left) - 1}
@@ -72,7 +72,7 @@ defmodule Hangman.Game do
     end
 
     defp reveal_letter(letter, _in_word = true), do: letter
-    defp reveal_letter(letter, _), do: "_"
+    defp reveal_letter(_letter, _), do: "_"
 
 
     defp maybe_won(true), do: :won
